@@ -53,20 +53,6 @@
     <exclude name="**/?*.clj"/>
     <exclude name="**/?*.aj"/>
   </patternset>
-  <!-- Register Custom Compiler Taskdefs -->
-  <property name="javac2.home" value="${idea.home}/lib"/>
-  <path id="javac2.classpath">
-    <fileset dir="${javac2.home}">
-      <include name="javac2.jar"/>
-      <include name="jdom.jar"/>
-      <include name="asm-all*.jar"/>
-      <include name="forms-*.jar"/>
-    </fileset>
-  </path>
-  <target name="register.custom.compilers">
-    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
-    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
-  </target>
   
   <!-- Modules -->
   
@@ -119,15 +105,15 @@
   
   <target name="compile.module.untitled" depends="compile.module.untitled.production,compile.module.untitled.tests" description="Compile module untitled"/>
   
-  <target name="compile.module.untitled.production" depends="register.custom.compilers" description="Compile module untitled; production classes">
+  <target name="compile.module.untitled.production" description="Compile module untitled; production classes">
     <mkdir dir="${untitled.output.dir}"/>
-    <javac2 destdir="${untitled.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+    <javac destdir="${untitled.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
       <compilerarg line="${compiler.args.untitled}"/>
       <bootclasspath refid="untitled.module.bootclasspath"/>
       <classpath refid="untitled.module.production.classpath"/>
       <src refid="untitled.module.sourcepath"/>
       <patternset refid="excluded.from.compilation.untitled"/>
-    </javac2>
+    </javac>
     
     <copy todir="${untitled.output.dir}">
       <fileset dir="${module.untitled.basedir}/src">
@@ -137,7 +123,7 @@
     </copy>
   </target>
   
-  <target name="compile.module.untitled.tests" depends="register.custom.compilers,compile.module.untitled.production" description="compile module untitled; test classes" unless="skip.tests"/>
+  <target name="compile.module.untitled.tests" depends="compile.module.untitled.production" description="compile module untitled; test classes" unless="skip.tests"/>
   
   <target name="clean.module.untitled" description="cleanup module">
     <delete dir="${untitled.output.dir}"/>
