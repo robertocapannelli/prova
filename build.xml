@@ -77,7 +77,7 @@
   
   
   
-  <property name="compiler.args.untitled" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  <property name="compiler.args.untitled" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
   
   <property name="untitled.output.dir" value="${module.untitled.basedir}/out/production/untitled"/>
   <property name="untitled.testoutput.dir" value="${module.untitled.basedir}/out/test/untitled"/>
